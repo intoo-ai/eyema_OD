@@ -53,21 +53,21 @@ def parse_args() -> None:
     parser.add_argument(
         "--data_path",
         type=str,
-        default="/content/eyema_OD/sampl_data/000000000025.jpg",
+        default="sampl_data/000000000629.jpg",
         help="path to data file, i.e. img.jpg",
     )
 
     parser.add_argument(
         "--save_path",
         type=str,
-        default="/content/results.jpg",
+        default="results.jpg",
         help="path to save data file, i.e. img.jpg",
     )
 
     parser.add_argument(
         "--candidate_labels",
         type=str,
-        default="animal",
+        default="door, motorcycle, tree",
         help="example: human face, star-spangled banner",
     )
 
