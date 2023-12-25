@@ -14,7 +14,7 @@ def run(conf: Dict) -> None:
     # Load a model
     model = YOLO(conf["model"])  # load an official model
 
-    # Run inference on 'bus.jpg' with arguments
+    # Run inference on '*.jpg' with arguments
     model.train(
         data=conf["data"],
         epochs=conf["epochs"],
