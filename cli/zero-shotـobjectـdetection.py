@@ -1,3 +1,5 @@
+# requierment: pip install -q transformers
+
 import sys
 import os
 
@@ -17,59 +19,35 @@ def run(conf: Dict) -> None:
     detector = pipeline(model=checkpoint, task="zero-shot-object-detection")
 
     # load data
-    img = Image.open(conf["image_path"]).convert("RGB")
+    img = Image.open(conf["data_path"]).convert("RGB")
+
+    # Split the input string using the comma as the delimiter
+    candidate_labels = conf["candidate_labels"].split(", ")
 
     # Run inference on '*.jpg' with arguments
     predictions = detector(
         img,
-        candidate_labels=["human face", "star-spangled banner"],
+        candidate_labels=candidate_labels,
     )
+
+    print(predictions)
 
 
 def parse_args() -> None:
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--model",
+        "--data_path",
         type=str,
-        default="eyema_OD/weights/yolov8n.pt",
-        choices=[
-            "eyema_OD/weights/yolov8n.pt",
-            "eyema_OD/weights/yolov8s.pt",
-            "eyema_OD/weights/yolov8m.pt",
-            "eyema_OD/weights/yolov8l.pt",
-            "eyema_OD/weights/yolov8x.pt",
-        ],
-        help="yolo model options",
+        default="dataset/tesla/images/imgs/frame_0089.jpg",
+        help="path to data file, i.e. img.jpg",
     )
 
-    # more informations: https://docs.ultralytics.com/modes/predict/#__tabbed_2_4
     parser.add_argument(
-        "--data",
+        "--candidate_labels",
         type=str,
-        default="/Users/miladsoleymani/Desktop/eyema_OD/cfg/train.yaml",
-        help="path to data file, i.e. coco128.yaml",
-    )
-
-    parser.add_argument(
-        "--epochs",
-        type=int,
-        default=100,
-        help="number of epochs to train for",
-    )
-
-    parser.add_argument(
-        "--imgsz",
-        type=int,
-        default=640,
-        help="size of input images as integer",
-    )
-
-    parser.add_argument(
-        "--device",
-        type=str,
-        default=None,
-        help="device to run on, i.e. cuda device=0 or device=0,1,2,3 or device=cpu",
+        default="",
+        help="example: human face, star-spangled banner",
     )
 
     opts = parser.parse_args()
